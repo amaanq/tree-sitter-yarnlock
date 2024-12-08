@@ -1,0 +1,307 @@
+[
+  {
+    "type": "dependencies",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dependency",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "url",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency_body",
+          "named": true
+        },
+        {
+          "type": "semver",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dependency_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dependencies",
+          "named": true
+        },
+        {
+          "type": "integrity",
+          "named": true
+        },
+        {
+          "type": "resolved",
+          "named": true
+        },
+        {
+          "type": "version",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dependency_entry",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "semver",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dependency_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "integrity",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "hash",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lock_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "resolved",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "url",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "semver",
+    "named": true,
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "=",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "major",
+          "named": true
+        },
+        {
+          "type": "minor",
+          "named": true
+        },
+        {
+          "type": "patch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "version",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "semver",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true
+  },
+  {
+    "type": "dependencies",
+    "named": false
+  },
+  {
+    "type": "hash",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "integrity",
+    "named": false
+  },
+  {
+    "type": "major",
+    "named": true
+  },
+  {
+    "type": "minor",
+    "named": true
+  },
+  {
+    "type": "patch",
+    "named": true
+  },
+  {
+    "type": "resolved",
+    "named": false
+  },
+  {
+    "type": "url",
+    "named": true
+  },
+  {
+    "type": "version",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  }
+]
