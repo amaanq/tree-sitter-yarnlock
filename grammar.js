@@ -11,7 +11,7 @@ module.exports = grammar({
   name: 'yarnlock',
 
   conflicts: $ => [
-    [$.dependency_list],
+    [$.dependency_body],
   ],
 
   extras: $ => [
@@ -24,23 +24,26 @@ module.exports = grammar({
     lock_file: $ => repeat1($.dependency),
 
     dependency: $ => seq(
-      choice(
-        commaSep1(seq(
-          choice(
-            field('name', $.identifier),
-            seq('"', field('name', $.identifier), '"'),
-          ),
+      commaSep1(choice(
+        seq(
+          field('name', $.identifier),
           '@',
-          $.semver,
-        )),
-        commaSep1(seq(
+          choice(
+            $.semver,
+            alias(token(prec(-1, /(file:)?[^"\s:]+/)), $.remote_url),
+          ),
+        ),
+        seq(
           '"',
           field(
             'name',
-            alias(/@?[^@]+/, $.url),
+            alias(/@?[^@"\s]+/, $.url),
           ),
           '@',
-          $.semver,
+          choice(
+            $.semver,
+            alias(token(prec(-1, /[^"\s]+/)), $.remote_url),
+          ),
           '"',
         )),
       ),
@@ -50,11 +53,11 @@ module.exports = grammar({
       $.dependency_body,
     ),
 
-    dependency_body: $ => prec.right(seq(
+    dependency_body: $ => seq(
       $.version,
-      $.resolved,
-      repeat(choice($.dependencies, $.integrity)),
-    )),
+      optional($.resolved),
+      repeat(choice($.dependencies, $.optional_dependencies, $.integrity)),
+    ),
 
     version: $ => seq(
       choice('version', seq('"', 'version', '"')),
@@ -66,7 +69,7 @@ module.exports = grammar({
     resolved: $ => seq(
       choice('resolved', seq('"', 'resolved', '"')),
       '"',
-      alias(/[^"]+/, $.url),
+      alias(/[^"\s]+/, $.url),
       '"',
     ),
 
@@ -78,13 +81,27 @@ module.exports = grammar({
       $.dependency_list,
     ),
 
+    optional_dependencies: $ => seq(
+      choice('optionalDependencies', seq('"', 'optionalDependencies', '"')),
+      ':',
+      $._newline,
+      $._indent,
+      $.dependency_list,
+    ),
+
     dependency_list: $ => repeat1($.dependency_entry),
 
     dependency_entry: $ => seq(
-      choice($.identifier, seq('"', $.identifier, '"')),
-      '"',
-      $.semver,
-      '"',
+      $._indent,
+      choice(
+        $.identifier,
+        seq('"', field('name', alias(/@?[^@"\s]+/, $.url)), '"'),
+      ),
+      choice(
+        seq('"', $.semver, '"'),
+        alias(token(prec(-1, /[^"\s]+/)), $.remote_url),
+        seq('"', alias(token(prec(-1, /[^"\s]+/)), $.remote_url), '"'),
+      ),
       $._newline,
     ),
 
@@ -108,11 +125,11 @@ module.exports = grammar({
       optional(field('build', /\+[^:"\s]+/)),
     ),
 
-    _indent: _ => /  /,
+    _indent: _ => token.immediate(/  /),
 
     _newline: _ => /\r?\n/,
 
-    identifier: _ => /@?[.a-zA-Z0-9_/-]+/,
+    identifier: _ => /[.a-zA-Z0-9_-]+/,
 
     comment: _ => token(seq('#', /.*/)),
   },

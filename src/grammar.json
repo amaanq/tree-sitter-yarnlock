@@ -13,122 +13,53 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
+              "type": "CHOICE",
               "members": [
                 {
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "FIELD",
-                          "name": "name",
-                          "content": {
-                            "type": "SYMBOL",
-                            "name": "identifier"
-                          }
-                        },
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": "\""
-                            },
-                            {
-                              "type": "FIELD",
-                              "name": "name",
-                              "content": {
-                                "type": "SYMBOL",
-                                "name": "identifier"
-                              }
-                            },
-                            {
-                              "type": "STRING",
-                              "value": "\""
-                            }
-                          ]
-                        }
-                      ]
+                      "type": "FIELD",
+                      "name": "name",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      }
                     },
                     {
                       "type": "STRING",
                       "value": "@"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "semver"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "semver"
+                        },
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": -1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "(file:)?[^\"\\s:]+"
+                              }
+                            }
+                          },
+                          "named": true,
+                          "value": "remote_url"
+                        }
+                      ]
                     }
                   ]
                 },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "FIELD",
-                                "name": "name",
-                                "content": {
-                                  "type": "SYMBOL",
-                                  "name": "identifier"
-                                }
-                              },
-                              {
-                                "type": "SEQ",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": "\""
-                                  },
-                                  {
-                                    "type": "FIELD",
-                                    "name": "name",
-                                    "content": {
-                                      "type": "SYMBOL",
-                                      "name": "identifier"
-                                    }
-                                  },
-                                  {
-                                    "type": "STRING",
-                                    "value": "\""
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "type": "STRING",
-                            "value": "@"
-                          },
-                          {
-                            "type": "SYMBOL",
-                            "name": "semver"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "SEQ",
-              "members": [
                 {
                   "type": "SEQ",
                   "members": [
@@ -143,7 +74,7 @@
                         "type": "ALIAS",
                         "content": {
                           "type": "PATTERN",
-                          "value": "@?[^@]+"
+                          "value": "@?[^@\"\\s]+"
                         },
                         "named": true,
                         "value": "url"
@@ -154,23 +85,91 @@
                       "value": "@"
                     },
                     {
-                      "type": "SYMBOL",
-                      "name": "semver"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "semver"
+                        },
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": -1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "[^\"\\s]+"
+                              }
+                            }
+                          },
+                          "named": true,
+                          "value": "remote_url"
+                        }
+                      ]
                     },
                     {
                       "type": "STRING",
                       "value": "\""
                     }
                   ]
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
-                        "value": ","
+                        "type": "SEQ",
+                        "members": [
+                          {
+                            "type": "FIELD",
+                            "name": "name",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "identifier"
+                            }
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "@"
+                          },
+                          {
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "semver"
+                              },
+                              {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "TOKEN",
+                                  "content": {
+                                    "type": "PREC",
+                                    "value": -1,
+                                    "content": {
+                                      "type": "PATTERN",
+                                      "value": "(file:)?[^\"\\s:]+"
+                                    }
+                                  }
+                                },
+                                "named": true,
+                                "value": "remote_url"
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
                         "type": "SEQ",
@@ -186,7 +185,7 @@
                               "type": "ALIAS",
                               "content": {
                                 "type": "PATTERN",
-                                "value": "@?[^@]+"
+                                "value": "@?[^@\"\\s]+"
                               },
                               "named": true,
                               "value": "url"
@@ -197,8 +196,29 @@
                             "value": "@"
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "semver"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "semver"
+                              },
+                              {
+                                "type": "ALIAS",
+                                "content": {
+                                  "type": "TOKEN",
+                                  "content": {
+                                    "type": "PREC",
+                                    "value": -1,
+                                    "content": {
+                                      "type": "PATTERN",
+                                      "value": "[^\"\\s]+"
+                                    }
+                                  }
+                                },
+                                "named": true,
+                                "value": "remote_url"
+                              }
+                            ]
                           },
                           {
                             "type": "STRING",
@@ -208,8 +228,8 @@
                       }
                     ]
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         },
@@ -232,37 +252,45 @@
       ]
     },
     "dependency_body": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "version"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "resolved"
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "dependencies"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "integrity"
-                }
-              ]
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "version"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "resolved"
+            },
+            {
+              "type": "BLANK"
             }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "dependencies"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "optional_dependencies"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "integrity"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
     },
     "version": {
       "type": "SEQ",
@@ -344,7 +372,7 @@
           "type": "ALIAS",
           "content": {
             "type": "PATTERN",
-            "value": "[^\"]+"
+            "value": "[^\"\\s]+"
           },
           "named": true,
           "value": "url"
@@ -402,6 +430,53 @@
         }
       ]
     },
+    "optional_dependencies": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "optionalDependencies"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "STRING",
+                  "value": "optionalDependencies"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_indent"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dependency_list"
+        }
+      ]
+    },
     "dependency_list": {
       "type": "REPEAT1",
       "content": {
@@ -412,6 +487,10 @@
     "dependency_entry": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_indent"
+        },
         {
           "type": "CHOICE",
           "members": [
@@ -427,8 +506,17 @@
                   "value": "\""
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "identifier"
+                  "type": "FIELD",
+                  "name": "name",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "@?[^@\"\\s]+"
+                    },
+                    "named": true,
+                    "value": "url"
+                  }
                 },
                 {
                   "type": "STRING",
@@ -439,16 +527,71 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "\""
-        },
-        {
-          "type": "SYMBOL",
-          "name": "semver"
-        },
-        {
-          "type": "STRING",
-          "value": "\""
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "semver"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": -1,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[^\"\\s]+"
+                  }
+                }
+              },
+              "named": true,
+              "value": "remote_url"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PREC",
+                      "value": -1,
+                      "content": {
+                        "type": "PATTERN",
+                        "value": "[^\"\\s]+"
+                      }
+                    }
+                  },
+                  "named": true,
+                  "value": "remote_url"
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -638,8 +781,11 @@
       ]
     },
     "_indent": {
-      "type": "PATTERN",
-      "value": "  "
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "  "
+      }
     },
     "_newline": {
       "type": "PATTERN",
@@ -647,7 +793,7 @@
     },
     "identifier": {
       "type": "PATTERN",
-      "value": "@?[.a-zA-Z0-9_/-]+"
+      "value": "[.a-zA-Z0-9_-]+"
     },
     "comment": {
       "type": "TOKEN",
@@ -678,7 +824,7 @@
   ],
   "conflicts": [
     [
-      "dependency_list"
+      "dependency_body"
     ]
   ],
   "precedences": [],

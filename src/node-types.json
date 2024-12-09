@@ -42,6 +42,10 @@
           "named": true
         },
         {
+          "type": "remote_url",
+          "named": true
+        },
+        {
           "type": "semver",
           "named": true
         }
@@ -65,6 +69,10 @@
           "named": true
         },
         {
+          "type": "optional_dependencies",
+          "named": true
+        },
+        {
           "type": "resolved",
           "named": true
         },
@@ -78,13 +86,28 @@
   {
     "type": "dependency_entry",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "url",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "remote_url",
           "named": true
         },
         {
@@ -135,6 +158,21 @@
       "types": [
         {
           "type": "dependency",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_dependencies",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency_list",
           "named": true
         }
       ]
@@ -285,7 +323,15 @@
     "named": true
   },
   {
+    "type": "optionalDependencies",
+    "named": false
+  },
+  {
     "type": "patch",
+    "named": true
+  },
+  {
+    "type": "remote_url",
     "named": true
   },
   {
