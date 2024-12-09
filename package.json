@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-yarnlock",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Yarnlock grammar for tree-sitter",
   "repository": "https://github.com/amaanq/tree-sitter-yarnlock",
   "license": "MIT",
