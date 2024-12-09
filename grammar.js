@@ -43,18 +43,28 @@ module.exports = grammar({
       $.dependency_body,
     ),
 
-    dependency_body: $ => seq(
+    dependency_body: $ => prec.right(seq(
       $.version,
       $.resolved,
       repeat(choice($.dependencies, $.integrity)),
+    )),
+
+    version: $ => seq(
+      choice('version', seq('"', 'version', '"')),
+      '"',
+      $.semver,
+      '"',
     ),
 
-    version: $ => seq('version', '"', $.semver, '"'),
-
-    resolved: $ => seq('resolved', '"', alias(/[^"]+/, $.url), '"'),
+    resolved: $ => seq(
+      choice('resolved', seq('"', 'resolved', '"')),
+      '"',
+      alias(/[^"]+/, $.url),
+      '"',
+    ),
 
     dependencies: $ => seq(
-      'dependencies',
+      choice('dependencies', seq('"', 'dependencies', '"')),
       ':',
       $._newline,
       $._indent,
@@ -63,9 +73,18 @@ module.exports = grammar({
 
     dependency_list: $ => repeat1($.dependency_entry),
 
-    dependency_entry: $ => seq($.identifier, '"', $.semver, '"', $._newline),
+    dependency_entry: $ => seq(
+      choice($.identifier, seq('"', $.identifier, '"')),
+      '"',
+      $.semver,
+      '"',
+      $._newline,
+    ),
 
-    integrity: $ => seq('integrity', alias(/[^\s].+/, $.hash)),
+    integrity: $ => seq(
+      choice('integrity', seq('"', 'integrity', '"')),
+      alias(/[^\s].+/, $.hash),
+    ),
 
     semver: $ => seq(
       optional(field('operator', choice('^', '~', '=', '>=', '>'))),
