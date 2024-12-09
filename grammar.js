@@ -25,7 +25,14 @@ module.exports = grammar({
 
     dependency: $ => seq(
       choice(
-        commaSep1(seq(field('name', $.identifier), '@', $.semver)),
+        commaSep1(seq(
+          choice(
+            field('name', $.identifier),
+            seq('"', field('name', $.identifier), '"'),
+          ),
+          '@',
+          $.semver,
+        )),
         commaSep1(seq(
           '"',
           field(
@@ -105,7 +112,7 @@ module.exports = grammar({
 
     _newline: _ => /\r?\n/,
 
-    identifier: _ => /[.a-zA-Z0-9_-]+/,
+    identifier: _ => /@?[.a-zA-Z0-9_/-]+/,
 
     comment: _ => token(seq('#', /.*/)),
   },
